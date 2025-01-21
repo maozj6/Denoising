@@ -7,6 +7,18 @@ from skimage.restoration import richardson_lucy, denoise_tv_chambolle
 import matplotlib.pyplot as plt
 from sklearn.mixture import GaussianMixture
 
+
+from skimage.restoration import richardson_lucy
+
+def lucy_richardson_denoise(image, psf, iterations):
+    """
+    Perform Lucy-Richardson deconvolution.
+    """
+    image = image.astype(np.float64) / 255  # Normalize image
+    psf = psf / psf.sum()  # Normalize PSF
+    deblurred = richardson_lucy(image, psf, iterations)
+    return (deblurred * 255).astype(np.uint8)
+
 def add_brightness_contrast(image):
     brightness = 50
     contrast = 1.5
